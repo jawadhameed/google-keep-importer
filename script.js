@@ -127,7 +127,8 @@
 
     chrome.storage.local.get('result', function (items) {
         chrome.storage.local.remove('result');
-        alert('inserted self... giggity');
-        createKeepNote("test", items.result);
+        alert(JSON.stringify(items));
+        // alert(items.result.title + "::" + items.result.content);
+        // createKeepNote(items.result.title, items.result.content);
     });
 })();

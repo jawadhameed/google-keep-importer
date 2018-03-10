@@ -66,9 +66,36 @@ function readEntries(entries) {
     for (i = 0; i < entryLength; i++) {
         var entry = entries[i];
         var fileName = entry.filename.substring(entry.filename.lastIndexOf("/") + 1); //if inside folder
-        var ext = fileName.split(".").pop().toLowerCase();
-        alert(fileName + "===" + ext);
+
+        if (fileName != null && fileName !== '' && fileName !== 'index.html') {
+            // alert(fileName);
+            extractNoteData(entry);
+        }
     }
+}
+
+function extractNoteData(entry) {
+    // get first entry content as text
+    entry.getData(new zip.TextWriter(), function (text) {
+        // text contains the entry data as a String
+        var el = document.createElement('html');
+        el.innerHTML = text;
+        var title = el.getElementsByClassName("title");
+        var content = el.getElementsByClassName("content");
+
+        var result = {
+            title: title[0].textContent,
+            content: content[0].textContent
+        };
+        alert(JSON.stringify(result));
+        // close the zip reader
+        reader.close(function () {
+            // onclose callback
+            el.parentNode.removeChild(el);
+        });
+    }, function (current, total) {
+        // onprogress callback
+    });
 }
 
 // This extension loads the saved background color for the current tab if one
@@ -100,18 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 reader.getEntries(function (entries) {
                     if (entries.length) {
                         readEntries(entries);
-                        // get first entry content as text
-                        entries[0].getData(new zip.TextWriter(), function (text) {
-                            // text contains the entry data as a String
-                            alert(text);
-                            // close the zip reader
-                            reader.close(function () {
-                                // onclose callback
-                            });
-
-                        }, function (current, total) {
-                            // onprogress callback
-                        });
                     }
                 });
             }, function (error) {

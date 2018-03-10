@@ -80,22 +80,25 @@ function readEntries(entries, callback) {
         values.forEach(function (text) {
             // text contains the entry data as a String
             var el = new DOMParser().parseFromString(text, "text/html");
+            var time = el.getElementsByClassName("heading");
             var title = el.getElementsByClassName("title");
             var content = el.getElementsByClassName("content");
 
             var noteContent = {
+                time: '',
                 title: '',
                 content: ''
             };
-            if (title[0]) {
-                noteContent.title = title[0].innerHTML;
-            }
-            if (content[0]) {
-                noteContent.content = content[0].innerHTML;
-            }
+            if (time[0]) noteContent.time = new Date(time[0].textContent);
+            if (title[0]) noteContent.title = title[0].innerHTML;
+            if (content[0]) noteContent.content = content[0].innerHTML;
             notesArray.push(noteContent);
         });
+        notesArray.sort(function compare(a, b) {
+            return a.time - b.time;
+        });
         addKeepNote(notesArray);
+        callback();
     }).catch(reason => {
         console.log(JSON.stringify(reason));
     });

@@ -23,6 +23,8 @@
         var title = extractFirstLine(txt);
         var content = txt.substring(title.length).trim(); */
 
+        var formattedContent = content.replace(/<br ?\/?>/g, "\n");
+
         var titleArea = LP.dom.querySelector(LP.keepElemTitle).nextSibling;
         var textTitle = LP.dom.createTextNode(title);
         titleArea.appendChild(textTitle);
@@ -31,7 +33,7 @@
         fireEvent(titleArea, 'mouseup');
 
         var contentArea = LP.dom.querySelector(LP.keepElemTextPlaceholder).nextSibling;
-        var textContent = LP.dom.createTextNode(content);
+        var textContent = LP.dom.createTextNode(formattedContent);
         contentArea.appendChild(textContent);
         fireEvent(contentArea, 'change');
         fireEvent(contentArea, 'mousedown');

@@ -95,7 +95,7 @@ function readEntries(entries, callback) {
             }
             notesArray.push(noteContent);
         });
-        alert(JSON.stringify(notesArray));
+        addKeepNote(notesArray);
     }).catch(reason => {
         console.log(JSON.stringify(reason));
     });

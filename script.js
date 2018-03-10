@@ -17,11 +17,11 @@
     }
 
     function addText(title, content) {
-        if (!title || title === '' || !content || content === '') {
+        /* if (!title || title === '' || !content || content === '') {
             return;
         }
-        // var title = extractFirstLine(txt);
-        // var content = txt.substring(title.length).trim();
+        var title = extractFirstLine(txt);
+        var content = txt.substring(title.length).trim(); */
 
         var titleArea = LP.dom.querySelector(LP.keepElemTitle).nextSibling;
         var textTitle = LP.dom.createTextNode(title);
@@ -127,8 +127,8 @@
 
     chrome.storage.local.get('result', function (items) {
         chrome.storage.local.remove('result');
-        alert(JSON.stringify(items));
-        // alert(items.result.title + "::" + items.result.content);
-        // createKeepNote(items.result.title, items.result.content);
+        items.result.forEach(function (note) {
+            createKeepNote(note.title, note.content);
+        });
     });
 })();

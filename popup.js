@@ -62,6 +62,7 @@ function addKeepNote(result) {
 }
 
 function readEntries(entries, callback) {
+    var promiseArray = [];
     var entryLength = entries.length;
     for (i = 0; i < entryLength; i++) {
         var entry = entries[i];
@@ -70,29 +71,50 @@ function readEntries(entries, callback) {
 
         if (fileName != null && fileName !== '' && fileName !== 'index.html') {
             // alert(fileName);
-            extractNoteData(entry, function(result) {
-                alert(JSON.stringify(result));
-            });
+            promiseArray.push(extractNoteData(entry));
         }
     }
+
+    Promise.all(promiseArray).then(values => {
+        values.forEach(function (text) {
+            // text contains the entry data as a String
+            var el = document.createElement('html');
+            el.innerHTML = text;
+            var title = el.getElementsByClassName("title");
+            var content = el.getElementsByClassName("content");
+
+            var noteContent = {
+                title: '',
+                content: ''
+            };
+            if (title[0]) {
+                noteContent.title = title[0].textContent;
+            }
+            if (content[0]) {
+                noteContent.content = content[0].textContent;
+            }
+            alert(JSON.stringify(noteContent));
+            /* var el = new DOMParser().parseFromString(text, "text/html");
+            var title = el.getElementsByClassName("title");
+            var content = el.getElementsByClassName("content");
+            var noteContent = {
+                title: title[0].textContent,
+                content: content[0].textContent
+            }; */
+        });
+    }).catch(reason => {
+        console.log(JSON.stringify(reason));
+    });
 }
 
-function extractNoteData(entry, callback) {
-    // get first entry content as text
-    entry.getData(new zip.TextWriter(), function (text) {
-        // text contains the entry data as a String
-        var el = document.createElement('html');
-        el.innerHTML = text;
-        var title = el.getElementsByClassName("title");
-        var content = el.getElementsByClassName("content");
-
-        var result = {
-            title: title[0].textContent,
-            content: content[0].textContent
-        };
-        callback(result);
-    }, function (current, total) {
-        // onprogress callback
+function extractNoteData(entry) {
+    return new Promise((resolve, reject) => {
+        // get first entry content as text
+        entry.getData(new zip.TextWriter(), function (text) {
+            resolve(text);
+        }, function (current, total) {
+            // onprogress callback
+        });
     });
 }
 
@@ -124,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // get all entries from the zip
                 reader.getEntries(function (entries) {
                     if (entries.length) {
-                        readEntries(entries, function() {
+                        readEntries(entries, function () {
                             // close the zip reader
                             reader.close(function () {
                                 // onclose callback

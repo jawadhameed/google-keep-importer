@@ -76,10 +76,10 @@ function readEntries(entries, callback) {
     }
 
     Promise.all(promiseArray).then(values => {
+        var notesArray = [];
         values.forEach(function (text) {
             // text contains the entry data as a String
-            var el = document.createElement('html');
-            el.innerHTML = text;
+            var el = new DOMParser().parseFromString(text, "text/html");
             var title = el.getElementsByClassName("title");
             var content = el.getElementsByClassName("content");
 
@@ -88,20 +88,14 @@ function readEntries(entries, callback) {
                 content: ''
             };
             if (title[0]) {
-                noteContent.title = title[0].textContent;
+                noteContent.title = title[0].innerHTML;
             }
             if (content[0]) {
-                noteContent.content = content[0].textContent;
+                noteContent.content = content[0].innerHTML;
             }
-            alert(JSON.stringify(noteContent));
-            /* var el = new DOMParser().parseFromString(text, "text/html");
-            var title = el.getElementsByClassName("title");
-            var content = el.getElementsByClassName("content");
-            var noteContent = {
-                title: title[0].textContent,
-                content: content[0].textContent
-            }; */
+            notesArray.push(noteContent);
         });
+        alert(JSON.stringify(notesArray));
     }).catch(reason => {
         console.log(JSON.stringify(reason));
     });

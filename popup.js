@@ -61,20 +61,23 @@ function addKeepNote(result) {
     });
 }
 
-function readEntries(entries) {
+function readEntries(entries, callback) {
     var entryLength = entries.length;
     for (i = 0; i < entryLength; i++) {
         var entry = entries[i];
-        var fileName = entry.filename.substring(entry.filename.lastIndexOf("/") + 1); //if inside folder
+        // if inside folder
+        var fileName = entry.filename.substring(entry.filename.lastIndexOf("/") + 1);
 
         if (fileName != null && fileName !== '' && fileName !== 'index.html') {
             // alert(fileName);
-            extractNoteData(entry);
+            extractNoteData(entry, function(result) {
+                alert(JSON.stringify(result));
+            });
         }
     }
 }
 
-function extractNoteData(entry) {
+function extractNoteData(entry, callback) {
     // get first entry content as text
     entry.getData(new zip.TextWriter(), function (text) {
         // text contains the entry data as a String
@@ -87,12 +90,7 @@ function extractNoteData(entry) {
             title: title[0].textContent,
             content: content[0].textContent
         };
-        alert(JSON.stringify(result));
-        // close the zip reader
-        reader.close(function () {
-            // onclose callback
-            el.parentNode.removeChild(el);
-        });
+        callback(result);
     }, function (current, total) {
         // onprogress callback
     });
@@ -126,7 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // get all entries from the zip
                 reader.getEntries(function (entries) {
                     if (entries.length) {
-                        readEntries(entries);
+                        readEntries(entries, function() {
+                            // close the zip reader
+                            reader.close(function () {
+                                // onclose callback
+                            });
+                        });
                     }
                 });
             }, function (error) {

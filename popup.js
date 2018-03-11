@@ -11,7 +11,7 @@
 function getCurrentTabUrl(callback) {
     // Query filter to be passed to chrome.tabs.query - see
     // https://developer.chrome.com/extensions/tabs#method-query
-    var queryInfo = {
+    let queryInfo = {
         active: true,
         currentWindow: true
     };
@@ -22,11 +22,11 @@ function getCurrentTabUrl(callback) {
         // one tab, so we can safely assume that |tabs| is a non-empty array.
         // A window can only have one active tab at a time, so the array consists of
         // exactly one tab.
-        var tab = tabs[0];
+        let tab = tabs[0];
 
         // A tab is a plain object that provides information about the tab.
         // See https://developer.chrome.com/extensions/tabs#type-Tab
-        var url = tab.url;
+        let url = tab.url;
 
         // tab.url is only available if the "activeTab" permission is declared.
         // If you want to see the URL of other tabs (e.g. after removing active:true
@@ -40,7 +40,7 @@ function getCurrentTabUrl(callback) {
     // Most methods of the Chrome extension APIs are asynchronous. This means that
     // you CANNOT do something like this:
     //
-    // var url;
+    // let url;
     // chrome.tabs.query(queryInfo, (tabs) => {
     //   url = tabs[0].url;
     // });
@@ -62,12 +62,12 @@ function addKeepNote(result) {
 }
 
 function readEntries(entries, callback) {
-    var promiseArray = [];
-    var entryLength = entries.length;
+    let promiseArray = [];
+    let entryLength = entries.length;
     for (i = 0; i < entryLength; i++) {
-        var entry = entries[i];
+        let entry = entries[i];
         // if inside folder
-        var fileName = entry.filename.substring(entry.filename.lastIndexOf("/") + 1);
+        let fileName = entry.filename.substring(entry.filename.lastIndexOf("/") + 1);
 
         if (fileName != null && fileName !== '' && fileName !== 'index.html') {
             // alert(fileName);
@@ -76,19 +76,22 @@ function readEntries(entries, callback) {
     }
 
     Promise.all(promiseArray).then(values => {
-        var notesArray = [];
+        let notesArray = [];
         values.forEach(function (text) {
             // text contains the entry data as a String
-            var el = new DOMParser().parseFromString(text, "text/html");
-            var time = el.getElementsByClassName("heading");
-            var title = el.getElementsByClassName("title");
-            var content = el.getElementsByClassName("content");
+            let el = new DOMParser().parseFromString(text, "text/html");
+            let archived = el.getElementsByClassName("archived");
+            let time = el.getElementsByClassName("heading");
+            let title = el.getElementsByClassName("title");
+            let content = el.getElementsByClassName("content");
 
-            var noteContent = {
+            let noteContent = {
                 time: '',
+                archived: false,
                 title: '',
                 content: ''
             };
+            if (archived[0]) noteContent.archived = true;
             if (time[0]) noteContent.time = new Date(time[0].textContent);
             if (title[0]) noteContent.title = title[0].innerHTML;
             if (content[0]) noteContent.content = content[0].innerHTML;
@@ -118,12 +121,12 @@ function extractNoteData(entry) {
 document.addEventListener('DOMContentLoaded', () => {
     getCurrentTabUrl((url) => {
         zip.workerScriptsPath = "/lib/";
-        var fileSelector = document.getElementById('file_select');
+        let fileSelector = document.getElementById('file_select');
 
         fileSelector.onchange = function () {
-            var file = fileSelector.files[0];
+            let file = fileSelector.files[0];
 
-            var reader = new FileReader();
+            let reader = new FileReader();
             reader.onload = function (e) {
                 // alert(e.target.result);
                 // addKeepNote(e.target.result);

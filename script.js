@@ -1,5 +1,5 @@
 (function () {
-    var LP = {
+    let LP = {
         keepElemTextPlaceholder: '.IZ65Hb-YPqjbf.h1U9Be-YPqjbf',
         keepElemDone: '.IZ65Hb-iib5kc',
         keepElemTitle: '.IZ65Hb-YPqjbf.r4nke-YPqjbf',
@@ -20,27 +20,27 @@
         /* if (!title || title === '' || !content || content === '') {
             return;
         }
-        var title = extractFirstLine(txt);
-        var content = txt.substring(title.length).trim(); */
+        let title = extractFirstLine(txt);
+        let content = txt.substring(title.length).trim(); */
 
-        var formattedContent = content.replace(/<br ?\/?>/g, "\n");
+        let formattedContent = content.replace(/<br ?\/?>/g, "\n");
 
-        var titleArea = LP.dom.querySelector(LP.keepElemTitle).nextSibling;
-        var textTitle = LP.dom.createTextNode(title);
+        let titleArea = LP.dom.querySelector(LP.keepElemTitle).nextSibling;
+        let textTitle = LP.dom.createTextNode(title);
         titleArea.appendChild(textTitle);
         fireEvent(titleArea, 'change');
         fireEvent(titleArea, 'mousedown');
         fireEvent(titleArea, 'mouseup');
 
-        var contentArea = LP.dom.querySelector(LP.keepElemTextPlaceholder).nextSibling;
-        var textContent = LP.dom.createTextNode(formattedContent);
+        let contentArea = LP.dom.querySelector(LP.keepElemTextPlaceholder).nextSibling;
+        let textContent = LP.dom.createTextNode(formattedContent);
         contentArea.appendChild(textContent);
         fireEvent(contentArea, 'change');
         fireEvent(contentArea, 'mousedown');
         fireEvent(contentArea, 'mouseup');
         /*
-        var text = LP.dom.createTextNode(txt);
-        var contentArea = LP.dom.querySelector(LP.keepElemTextPlaceholder).nextSibling;
+        let text = LP.dom.createTextNode(txt);
+        let contentArea = LP.dom.querySelector(LP.keepElemTextPlaceholder).nextSibling;
         contentArea.appendChild(text);
         fireEvent(contentArea, 'change');
         fireEvent(LP.dom.querySelector(LP.keepElemTextPlaceholder).nextSibling, 'mousedown');
@@ -56,7 +56,7 @@
         if (!txt || txt === '') {
             return '';
         }
-        var newLinePos = txt.indexOf('\n');
+        let newLinePos = txt.indexOf('\n');
         if (newLinePos === -1) {
             return txt;
         }
@@ -76,7 +76,7 @@
      */
     function fireEvent(node, eventName) {
         // Make sure we use the ownerDocument from the provided node to avoid cross-window problems
-        var doc;
+        let doc;
         if (node.ownerDocument) {
             doc = node.ownerDocument;
         } else if (node.nodeType == 9) {
@@ -88,7 +88,7 @@
 
         if (node.dispatchEvent) {
             // Gecko-style approach (now the standard) takes more work
-            var eventClass = "";
+            let eventClass = "";
 
             // Different events have different event classes.
             // If this switch statement can't map an eventName to an eventClass,
@@ -111,9 +111,9 @@
                     throw "fireEvent: Couldn't find an event class for event '" + eventName + "'.";
                     break;
             }
-            var event = doc.createEvent(eventClass);
+            let event = doc.createEvent(eventClass);
 
-            var bubbles = eventName == "change" ? false : true;
+            let bubbles = eventName == "change" ? false : true;
             event.initEvent(eventName, bubbles, true); // All events created as bubbling and cancelable.
 
             event.synthetic = true; // allow detection of synthetic events
@@ -121,7 +121,7 @@
             node.dispatchEvent(event, true);
         } else if (node.fireEvent) {
             // IE-old school style
-            var event = doc.createEventObject();
+            let event = doc.createEventObject();
             event.synthetic = true; // allow detection of synthetic events
             node.fireEvent("on" + eventName, event);
         }

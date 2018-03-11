@@ -94,7 +94,19 @@ function readEntries(entries, callback) {
             if (archived[0]) noteContent.archived = true;
             if (time[0]) noteContent.time = new Date(time[0].textContent);
             if (title[0]) noteContent.title = title[0].innerHTML;
-            if (content[0]) noteContent.content = content[0].innerHTML;
+            if (content[0]) {
+                let listItem = content[0].getElementsByClassName("listitem");
+                if (listItem[0]) {
+                    for (let i = 0; i < listItem.length; i++) {
+                        let bullet = listItem[i].getElementsByClassName("bullet");
+                        if (bullet[0]) noteContent.content += bullet[0].textContent;
+                        let text = listItem[i].getElementsByClassName("text");
+                        if (text[0]) noteContent.content += text[0].textContent + '<br>';
+                    }
+                } else {
+                    noteContent.content = content[0].innerHTML;
+                }
+            }
             notesArray.push(noteContent);
         });
         notesArray.sort(function compare(a, b) {
@@ -103,7 +115,7 @@ function readEntries(entries, callback) {
         addKeepNote(notesArray);
         callback();
     }).catch(reason => {
-        console.log(JSON.stringify(reason));
+        alert("Something went wrong please inform the developer.");
     });
 }
 

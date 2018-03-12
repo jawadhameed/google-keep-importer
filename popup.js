@@ -99,7 +99,7 @@ function readEntries(entries, callback) {
                 if (listItem[0]) {
                     for (let i = 0; i < listItem.length; i++) {
                         let bullet = listItem[i].getElementsByClassName("bullet");
-                        if (bullet[0]) noteContent.content += bullet[0].textContent;
+                        if (bullet[0]) noteContent.content += bullet[0].textContent + ' ';
                         let text = listItem[i].getElementsByClassName("text");
                         if (text[0]) noteContent.content += text[0].textContent + '<br>';
                     }

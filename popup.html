@@ -1,31 +1,30 @@
 <!doctype html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Google Keep Importer</title>
+
     <style type="text/css">
-        body {
-            margin: 10px;
-            white-space: nowrap;
-        }
+        html { font-size: 62.5% }
+        body { background-color: #FFFFFF; font: 1.2em Verdana, Arial, Helvetica, sans-serif; }
 
-        h1 {
-            font-size: 15px;
-        }
-
-        #container {
-            align-items: center;
-            display: flex;
-            justify-content: space-between;
-        }
+        /* ==================== Form style sheet ==================== */
+        form { width: 350px; padding-left: 10px; padding-right: 10px; padding-top: 10px }
+        fieldset { margin: 0 0 22px 0; border: 1px solid #095D92; padding: 12px 17px; background-color: #DFF3FF; }
+        legend { font-size: 1.1em; background-color: #095D92; color: #FFFFFF; font-weight: bold; padding: 4px 8px; }
+        form br { display: none; }
+        /* ==================== Form style sheet END ==================== */
     </style>
     <script src="popup.js"></script>
     <script type="text/javascript" src="/lib/zip.js"></script>
 </head>
 
 <body>
-<h1>Google Keep Importer</h1>
-<div id="container">
-    <input id="file_select" type="file"/>
-</div>
+<form action="" method="post">
+    <fieldset>
+        <legend>Google Keep Importer :</legend>
+        <input id="file_select" type="file"/>
+    </fieldset>
+</form>
 </body>
 </html>

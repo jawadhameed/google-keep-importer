@@ -16,7 +16,7 @@ Easily imports your backup file from Google Takeout into Google Keep as notes.
 4. Install the plugin from Chrome extension store: https://chrome.google.com/webstore/detail/
 5. Now visit the Google Keep website and log in, https://keep.google.com/#home
 6. Click the **Google Keep Importer** icon on your Chrome extension bar to open the small popup of this extension 
-7. Select the file you downloaded earlier from your system.
+7. Select the file you downloaded earlier from your system. Please be patient as depending on the file size it may take a while.
 8. Done ;)
 
 ## Todos - Future work

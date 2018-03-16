@@ -132,5 +132,6 @@
         items.result.forEach(function (note) {
             createKeepNote(note.title, note.content);
         });
+        alert('All done, have a good day :)');
     });
 })();

@@ -29,6 +29,7 @@ Easily imports your backup file from Google Takeout into Google Keep as notes.
 ## Credits
 
 * This extension borrows some of the core functions from https://github.com/lambrospetrou/gmail-keep-importer. So please head there and say hi. I have also shamelessly ripped off some of the documentation as well :).
+* This extension uses the fantastic zip.js library for zip parsing. https://gildas-lormeau.github.io/zip.js/
 
 ## Feedback / Suggestions
 

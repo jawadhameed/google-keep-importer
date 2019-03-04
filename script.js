@@ -1,8 +1,7 @@
 (function () {
-    let LP = {
-        keepElemTextPlaceholder: '.IZ65Hb-YPqjbf.h1U9Be-YPqjbf',
-        keepElemDone: '.IZ65Hb-iib5kc',
-        keepElemTitle: '.IZ65Hb-YPqjbf.r4nke-YPqjbf',
+        keepElemTextPlaceholder: '.h1U9Be-YPqjbf[role=textbox]',
+        keepElemDone: '.IZ65Hb-iib5kc[role=button]',
+        keepElemTitle: '.IZ65Hb-YPqjbf.r4nke-YPqjbf[role=textbox]',
         dom: document
     };
 
@@ -25,14 +24,14 @@
 
         let formattedContent = content.replace(/<br ?\/?>/g, "\n");
 
-        let titleArea = LP.dom.querySelector(LP.keepElemTitle).nextSibling;
+        let titleArea = LP.dom.querySelector(LP.keepElemTitle);
         let textTitle = LP.dom.createTextNode(title);
         titleArea.appendChild(textTitle);
         fireEvent(titleArea, 'change');
         fireEvent(titleArea, 'mousedown');
         fireEvent(titleArea, 'mouseup');
 
-        let contentArea = LP.dom.querySelector(LP.keepElemTextPlaceholder).nextSibling;
+        let contentArea = LP.dom.querySelector(LP.keepElemTextPlaceholder);
         let textContent = LP.dom.createTextNode(formattedContent);
         contentArea.appendChild(textContent);
         fireEvent(contentArea, 'change');

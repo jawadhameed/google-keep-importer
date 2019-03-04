@@ -3,7 +3,7 @@
 
   "name": "Google Keep Importer",
   "description": "Allows you to import backup file from Google Takeout into Google Keep as notes. Just select the file you want to import.",
-  "version": "1.1",
+  "version": "1.2",
 
   "browser_action": {
     "default_icon": "icon.png",

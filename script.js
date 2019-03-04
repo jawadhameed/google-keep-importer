@@ -1,4 +1,5 @@
 (function () {
+    let LP = {
         keepElemTextPlaceholder: '.h1U9Be-YPqjbf[role=textbox]',
         keepElemDone: '.IZ65Hb-iib5kc[role=button]',
         keepElemTitle: '.IZ65Hb-YPqjbf.r4nke-YPqjbf[role=textbox]',
